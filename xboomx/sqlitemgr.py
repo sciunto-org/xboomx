@@ -7,14 +7,16 @@ from sqlalchemy import Column, Integer, String
 
 __author__ = 'Victor Häggqvist'
 
-# create dir if not exists
+# Define the path for the configuration directory
+config_dir = os.path.join(os.getenv("HOME"), '.xboomx')
+
 try:
-    os.makedirs(os.getenv("HOME") + '/.xboomx')
-except:
-    pass
+    os.makedirs(config_dir, exist_ok=True)
+except OSError as e:
+    print(f"Error creating the directory {config_dir}: {e}")
 
 dbname = 'xboomx_sqlite.db'
-dbpath = os.path.join(os.getenv("HOME"), '.xboomx', dbname)
+dbpath = os.path.join(config_dir, dbname)
 dsn = 'sqlite:///%s' % dbpath
 
 engine = create_engine(dsn, echo=False)
