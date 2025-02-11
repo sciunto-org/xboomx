@@ -7,8 +7,10 @@ from sqlalchemy import Column, Integer, String
 
 __author__ = 'Victor Häggqvist'
 
+from xboomx.config import config_dir
+
 # Define the path for the configuration directory
-config_dir = os.path.join(os.getenv("HOME"), '.xboomx')
+#config_dir = os.path.join(os.getenv("HOME"), '.config', 'xboomx')
 
 try:
     os.makedirs(config_dir, exist_ok=True)
