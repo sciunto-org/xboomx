@@ -13,7 +13,7 @@ def main():
 
     try:
         item = sys.stdin.read()
-        pprint(item)
+        pprint(item.strip('\n'))
 
         session = get_session()
         try:
@@ -27,7 +27,6 @@ def main():
         session.commit()
         session.close()
 
-        print(item)
     except IndexError:
         # handle if one press Esc to exit dmenu, catch broken pipe
         exit(0)
