@@ -1,23 +1,18 @@
 # xboomx
 
-xboomx is wrapper around the dmenu. It is also a launcher. All the things it done is just sorting commands to launch according to their launch frequency. In other words - if you launch emacs and lxterminal all the time - they will appear in the list of commands first.
+xboomx is wrapper for dmenu. The goal is to apply sorting commands according to their launch frequency. In other words - if you launch emacs and lxterminal all the time - they will appear in the list of commands first.
 
 ## Installation
 ```sh
-git clone https://github.com/victorhaggqvist/xboomx
+git clone https://github.com/sciunto-org/xboomx
 cd xboomx
-sudo apt-get install suckless-tools # here is instrtuction for debian. really we need only dmenu
+sudo apt-get install suckless-tools # here is instruction for debian. really we need only dmenu
 sudo python setup.py install
 mkdir ~/.xboomx
 cp etc/config ~/.xboomx/config
 ```
 
 Available via AUR as `xboomx-snilius`.
-
-### Migration to xboomx 0.7.x, python 3
-xboomx 0.7.x contain breaking changes from previous versions.
-
-To perform the migration make sure you still have python 2 installed, then run `xboomx_python2mirgation.py` which performs the migration. When this is done you are good to start using xboomx 0.7.x.
 
 ## Config
 The config file, which if you followed the instructions above is located at `~/.xboomx/config`, contains the following a json object.
@@ -36,12 +31,13 @@ man dmenu
 
 The `ignorelist` to prevent stuff that is in your path for showing up as suggestions. Like if you type `x` then `X` might show up before `xbmc`.
 
-`complete_offpath` will add everything that's in you ranking database regardless of availability on PATH. This is off by default. 
+`complete_offpath` will add everything that's in you ranking database regardless of availability on PATH. This is off by default.
 
 ## License
 
     xboomx
     Copyright (C) 2014-2015  Victor Häggqvist
+    Copyright (C) 2025 Francois Boulogne
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,4 +55,4 @@ The `ignorelist` to prevent stuff that is in your path for showing up as suggest
 
 For original license see the file `LICENSE.org`
 
-This is a fork of https://bitbucket.org/dehun/xboomx
+This is a fork of https://bitbucket.org/dehun/xboomx and https://github.com/victorhaggqvist/xboomx
