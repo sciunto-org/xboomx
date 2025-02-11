@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from pprint import pprint
 import sys
-import fileinput
 from sqlalchemy.orm.exc import NoResultFound
 from xboomx.sqlitemgr import get_session, PathItem
 
@@ -13,10 +12,8 @@ def main():
         db_type = sys.argv[1]
 
     try:
-        item = fileinput.input()[0]
+        item = sys.stdin.read()
         pprint(item)
-
-        item = item.strip('\n')
 
         session = get_session()
         try:
