@@ -14,14 +14,8 @@ def main():
     # read lines and set weight according to db
     items = []
     for input_item in fileinput.input([]):
-        input_item = input_item.strip('\n')
-
-        try:
-
-            count = memitems[input_item]
+            count = memitems.get(input_item, 0)
             items.append((count, input_item))
-        except KeyError:
-            items.append((0, input_item))
 
     # sort items
     items.sort(key=lambda x: x[0], reverse=True)
