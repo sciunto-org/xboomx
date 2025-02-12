@@ -23,9 +23,9 @@ def main():
                 continue
 
             if len(item.name) < 8:
-                print('%s\t\t%s' % (item.name, item.count))
+                print(f'{item.name}\t\t{item.count}')
             else:
-                print('%s\t%s' % (item.name, item.count))
+                print(f'{item.name}\t{item.count}')
 
         exit(0)
 
