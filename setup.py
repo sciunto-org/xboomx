@@ -14,7 +14,6 @@ setup(
     long_description='A wrapper for most common occurrences in dmenu',
     install_requires=[],
     include_package_data=True,
-    package_data={'shared': ["etc/config"]},
     author="Francois Boulogne",
     author_email="devel@sciunto.org",
     url="https://github.com/sciunto/xboomx",
