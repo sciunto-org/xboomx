@@ -31,7 +31,7 @@ def main():
 
     dmenu_launcher = 'dmenu ' + config.get("dmenu_params", "")
 
-    subprocess.call('xboomx_path.py | xboomx_sort.py | ' + dmenu_launcher + "| xboomx_update.py | xargs -I {} sh -c \'exec {} &\'", shell=True)
+    subprocess.call('xboomx_sort.py | ' + dmenu_launcher + "| xboomx_update.py | xargs -I {} sh -c \'exec {} &\'", shell=True)
 
 if __name__ == '__main__':
     main()

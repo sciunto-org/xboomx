@@ -1,22 +1,43 @@
 #!/usr/bin/env python3
-import fileinput
+import os
 from xboomx.sqlitemgr import get_session, PathItem
 from xboomx.config import config
+
+
+def get_names():
+    """
+    Retrieve unique names from the system PATH, excluding ignored items.
+    """
+    paths = os.environ['PATH'].split(':')
+
+    unique_items = set()
+
+    # Collect unique filenames from directories in PATH
+    for path in paths:
+        if os.path.isdir(path):
+            unique_items.update(os.listdir(path))
+
+
+    unique_items = list(set(items))
+
+    # Filter out ignored items
+    ignore_list = set(config.get("ignorelist", "").split(','))
+    return [item for item in unique_items if item not in ignore_list]
+
 
 def main():
     session = get_session()
     dbitems = session.query(PathItem).all()
 
-    memitems = {}
-    for i in dbitems:
-        memitems[i.name] = i.count
+	# From database
+    # Create a dictionary to map item names to their counts
+    memitems = {item.name: item.count for item in dbitems}
 
-    # read lines and set weight according to db
-    items = []
-    for input_item in fileinput.input([]):
-        input_item = input_item.strip()
-        count = memitems.get(input_item, 0)
-        items.append((count, input_item))
+	# From system path
+    names = get_names()
+    # set the counts
+	# default if not existing is zero
+    items = [(memitems.get(name.strip(), 0), name.strip()) for name in names]
 
     # sort items
     items.sort(key=lambda x: x[0], reverse=True)
@@ -30,8 +51,8 @@ def main():
                 items.append((memitems[key], key))
 
     # print items to be shown on dmenu
-    for item in items:
-        print(item[1])
+    for _, name in items:
+        print(name)
 
     session.close()
 
