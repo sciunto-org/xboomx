@@ -8,14 +8,15 @@ git clone https://github.com/sciunto-org/xboomx
 cd xboomx
 sudo apt-get install suckless-tools # here is instruction for debian. really we need only dmenu
 sudo python setup.py install
-mkdir ~/.config/xboomx
-cp etc/config ~/.config/xboomx/config
 ```
 
 Available via AUR as `xboomx-snilius`.
 
 ## Config
-The config file, which if you followed the instructions above is located at `~/.config/xboomx/config`, contains the following a json object.
+The config file is located at `~/.config/xboomx/config`. It is created during the first execution of xboomx.
+
+
+Here is an alternative content:
 ```json
 {
   "dmenu_params": "-b -i -nb black -nf orange -sb black -p \"#\"",
