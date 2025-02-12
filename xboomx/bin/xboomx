@@ -19,9 +19,6 @@ def print_stats():
 
     print('Application\tLaunches')
     for item in items:
-        if item.count < 3:
-            continue
-
         if len(item.name) < 8:
             print(f'{item.name}\t\t{item.count}')
         else:
