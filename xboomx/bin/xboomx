@@ -7,13 +7,17 @@ __credits__ = ['Victor Häggqvist', 'Yuriy Netesov']
 __license__ = 'GPL-2.0'
 __maintainer__ = 'Victor Häggqvist <victor@hggqvst.com>'
 
+import sys
+import argparse
 import subprocess
 from xboomx.config import config
 from xboomx.sqlitemgr import get_session, PathItem
-import sys
 
 
 def print_stats():
+    """
+    Display statistics about the application launches
+    """
     session = get_session()
     items = session.query(PathItem).order_by(PathItem.count.desc())
 
@@ -26,12 +30,16 @@ def print_stats():
 
 
 def main():
-    if len(sys.argv) > 1 and sys.argv[1] == "--stats":
+    parser = argparse.ArgumentParser(description='Run dmenu with entries sorted by usage frequency.')
+    parser.add_argument('--stats', action='store_true', help='Display application launch statistics.')
+
+    args = parser.parse_args()
+
+    if args.stats:
         print_stats()
         exit(0)
 
     dmenu_launcher = f'dmenu {config.get("dmenu_params", "")}'
-
     subprocess.call(f'xboomx_sort.py | {dmenu_launcher} | xboomx_update.py | xargs -I {{}} sh -c \'exec {{}} &\'', shell=True)
 
 if __name__ == '__main__':
