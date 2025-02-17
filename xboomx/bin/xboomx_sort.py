@@ -3,56 +3,45 @@ import os
 from xboomx.sqlitemgr import get_session, PathItem
 from xboomx.config import config
 
+IGNORE_LIST = config.get("ignorelist", "").split(',')
+COMPLETE_OFFPATH = config.get('complete_offpath', False)
 
-def get_names():
-    """
-    Retrieve unique names from the system PATH, excluding ignored items.
-    """
+def get_unique_filenames():
+    """Collect unique filenames from directories in PATH"""
     paths = os.environ['PATH'].split(':')
-
-    unique_items = set()
-
-    # Collect unique filenames from directories in PATH
+    unique_filenames = set()
     for path in paths:
         if os.path.isdir(path):
-            unique_items.update(os.listdir(path))
+            unique_filenames.update(os.listdir(path))
+    return unique_filenames
 
-    # Filter out ignored items
-    ignore_list = set(config.get("ignorelist", "").split(','))
-    return [item for item in unique_items if item not in ignore_list]
+def filter_ignored_filenames(unique_filenames):
+    """Filter out ignored filenames"""
+    ignored_filenames = set(IGNORE_LIST)
+    return [filename for filename in unique_filenames if filename not in ignored_filenames]
 
+def get_filename_counts(session):
+    """Create a dictionary to map item names to their counts"""
+    dbitems = session.query(PathItem).all()
+    return {item.name: item.count for item in dbitems}
 
 def main():
     session = get_session()
-    dbitems = session.query(PathItem).all()
+    filename_counts = get_filename_counts(session)
+    unique_filenames = get_unique_filenames()
+    filtered_filenames = filter_ignored_filenames(unique_filenames)
+    sorted_filenames = sorted([(filename_counts.get(filename.strip(), 0), filename.strip()) for filename in filtered_filenames], key=lambda x: x[0], reverse=True)
 
-	# From database
-    # Create a dictionary to map item names to their counts
-    memitems = {item.name: item.count for item in dbitems}
+    if COMPLETE_OFFPATH:
+        for key in filename_counts:
+            if not [item[1] for item in sorted_filenames if item[1] == key]:
+                sorted_filenames.append((filename_counts[key], key))
 
-	# From system path
-    names = get_names()
-    # set the counts
-	# default if not existing is zero
-    items = [(memitems.get(name.strip(), 0), name.strip()) for name in names]
-
-    # sort items
-    items.sort(key=lambda x: x[0], reverse=True)
-
-    # complete commands
-    complete_offpath = config.get('complete_offpath', False)
-    if complete_offpath:
-        for key in memitems:
-            # check if any item (from previous queries) is not yet in items
-            if not [item[1] for item in items if item[1] == key]:
-                items.append((memitems[key], key))
-
-    # print items to be shown on dmenu
-    for _, name in items:
-        print(name)
+    for _, filename in sorted_filenames:
+        print(filename)
 
     session.close()
 
-
 if __name__ == '__main__':
     main()
+
