@@ -17,9 +17,6 @@ def get_names():
         if os.path.isdir(path):
             unique_items.update(os.listdir(path))
 
-
-    unique_items = list(set(items))
-
     # Filter out ignored items
     ignore_list = set(config.get("ignorelist", "").split(','))
     return [item for item in unique_items if item not in ignore_list]
