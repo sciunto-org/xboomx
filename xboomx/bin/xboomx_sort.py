@@ -3,8 +3,6 @@ import os
 from xboomx.sqlitemgr import get_session, PathItem
 from xboomx.config import config
 
-IGNORE_LIST = config.get("ignorelist", "").split(',')
-COMPLETE_OFFPATH = config.get('complete_offpath', False)
 
 def get_unique_filenames():
     """Collect unique filenames from directories in PATH"""
@@ -17,8 +15,13 @@ def get_unique_filenames():
 
 def filter_ignored_filenames(unique_filenames):
     """Filter out ignored filenames"""
-    ignored_filenames = set(IGNORE_LIST)
-    return [filename for filename in unique_filenames if filename not in ignored_filenames]
+    ignore_list = config.get("ignorelist", None)
+
+    if ignore_list is not None:
+        ignored_filenames = set(ignore_list.split(',') )
+        return [filename for filename in unique_filenames if filename not in ignored_filenames]
+    else:
+        return unique_filenames
 
 def get_filename_counts(session):
     """Create a dictionary to map item names to their counts"""
@@ -32,7 +35,7 @@ def main():
     filtered_filenames = filter_ignored_filenames(unique_filenames)
     sorted_filenames = sorted([(filename_counts.get(filename.strip(), 0), filename.strip()) for filename in filtered_filenames], key=lambda x: x[0], reverse=True)
 
-    if COMPLETE_OFFPATH:
+    if config.get('complete_offpath', False):
         for key in filename_counts:
             if not [item[1] for item in sorted_filenames if item[1] == key]:
                 sorted_filenames.append((filename_counts[key], key))
