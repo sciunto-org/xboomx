@@ -2,6 +2,11 @@
 from setuptools import setup, find_packages
 
 
+def parse_requirements(filename):
+	with open(filename, 'r') as file:
+		return file.read().splitlines()
+
+
 setup(
     name='xboomx',
     version='2025.02.11',
@@ -12,7 +17,7 @@ setup(
              ],
     license='GPL-2.0',
     long_description='A wrapper for most common occurrences in dmenu',
-    install_requires=[],
+    install_requires=parse_requirements('requirements.txt'),
     include_package_data=True,
     author="Francois Boulogne",
     author_email="devel@sciunto.org",
