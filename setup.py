@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
+import re
 from setuptools import setup, find_packages
+
+
+def read_version(name):
+    with open(os.path.join(os.path.dirname(__file__), name, '__init__.py')) as f:
+        for line in f:
+            match = re.match(r"^__version__ = ['\"]([^'\"]*)['\"]", line)
+            if match:
+                return match.group(1)
+        raise RuntimeError("Unable to find version string.")
 
 
 def parse_requirements(filename):
@@ -9,7 +20,7 @@ def parse_requirements(filename):
 
 setup(
     name='xboomx',
-    version='2025.02.11',
+    version=read_version('xboomx'),
     packages=['xboomx'],
     scripts=['xboomx/bin/xboomx_sort.py',
              'xboomx/bin/xboomx_update.py',
