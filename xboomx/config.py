@@ -12,7 +12,7 @@ def load_config():
     """
     config_path = os.path.join(config_dir, "config")
     default_config = {
-        "dmenu_params": "-i -nb black -nf orange -sb black -p \"#\""
+        "dmenu_params": "-i -nb black -nf orange -sb black -p #"
     }
 
     try:

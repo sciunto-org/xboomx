@@ -8,6 +8,7 @@ __license__ = 'GPL-2.0'
 __maintainer__ = 'Victor Häggqvist <victor@hggqvst.com>'
 
 import sys
+import shutil
 import argparse
 import subprocess
 from xboomx.config import config
@@ -39,8 +40,22 @@ def main():
         print_stats()
         exit(0)
 
-    dmenu_launcher = f'dmenu {config.get("dmenu_params", "")}'
-    subprocess.call(f'xboomx_sort.py | {dmenu_launcher} | xboomx_update.py | xargs -I {{}} sh -c \'exec {{}} &\'', shell=True)
+    dmenu_config = config.get("dmenu_params", "")
+    dmenu_config = dmenu_config.split(' ')
+    dmenu_launcher = 'dmenu'
+
+    xboomx_sort = [shutil.which('xboomx_sort.py')] #['python', 'xboomx_sort.py']
+    dmenu_launcher = [dmenu_launcher]
+    dmenu_launcher.extend(dmenu_config)
+    xboomx_update = [shutil.which('xboomx_update.py')] # ['python', 'xboomx_update.py']
+
+    process = subprocess.Popen(xboomx_sort, stdout=subprocess.PIPE)
+    process2 = subprocess.Popen(dmenu_launcher, stdin=process.stdout, stdout=subprocess.PIPE)
+    process3 = subprocess.Popen(xboomx_update, stdin=process2.stdout, stdout=subprocess.PIPE)
+
+    #command = process3.stdout.readline().decode().strip()
+    #subprocess.run(['sh', '-c', f'exec {command} &'])
+
 
 if __name__ == '__main__':
     main()
