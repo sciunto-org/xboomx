@@ -53,8 +53,8 @@ def main():
     process2 = subprocess.Popen(dmenu_launcher, stdin=process.stdout, stdout=subprocess.PIPE)
     process3 = subprocess.Popen(xboomx_update, stdin=process2.stdout, stdout=subprocess.PIPE)
 
-    #command = process3.stdout.readline().decode().strip()
-    #subprocess.run(['sh', '-c', f'exec {command} &'])
+    command = process3.stdout.readline().decode().strip()
+    subprocess.run(['sh', '-c', f'exec {command} &'])
 
 
 if __name__ == '__main__':
