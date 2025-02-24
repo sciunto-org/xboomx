@@ -10,7 +10,7 @@ def load_config():
     """
     Load configuration, init if doesn't exist.
     """
-    config_path = os.path.join(config_dir, "config")
+    config_path = os.path.join(config_dir, "config.txt")
     default_config = {
         "dmenu_params": "-i -nb black -nf orange -sb black -p #"
     }
