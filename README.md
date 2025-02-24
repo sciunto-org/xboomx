@@ -13,7 +13,7 @@ sudo python setup.py install
 Available via AUR as `xboomx-snilius`.
 
 ## Config
-The config file is located at `~/.config/xboomx/config`. It is created during the first execution of xboomx.
+The config file is located at `~/.config/xboomx/config.txt`. It is created during the first execution of xboomx.
 
 
 Here is an alternative content:
