@@ -1,7 +1,7 @@
 # Maintainer: Francois Boulogne <devel@sciunto.org>
 
 pkgname=xboomx
-pkgver=2025.02.11
+pkgver=2025.02.24
 pkgrel=1
 pkgdesc="A wrapper for most common occurrences in dmenu"
 url="https://github.com/sciunto-org/xboomx"
@@ -11,9 +11,8 @@ depends=('python' 'python-sqlalchemy' 'dmenu')
 makedepends=('python-setuptools')
 provides=('xboomx')
 conflicts=('xboomx')
-
-source=(https://github.com/sciunto-org/xboomx/archive/v${pkgver}.zip)
-sha512sums=('5828568270eec6017346c5c6d9ed8d57e88392bb04a720f3858accd5a118441ab1ec63974a15559bd93ee6630ab694188397de4ad7bf71dc970791acd8b1ba02')
+source=(https://github.com/sciunto-org/xboomx/archive/refs/tags/${pkgver}.zip)
+sha512sums=('3259dad72da50f3763b86895ef0bbc5be7b17f03d16db0341d625496cc34fa2a1f04dc652309d182c28f27c152a025b30cabc807800e15939669edeaa48afce4')
 
 build() {
   cd "$srcdir/xboomx-${pkgver}"
