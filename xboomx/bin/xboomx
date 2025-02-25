@@ -1,60 +1,66 @@
-#!/usr/bin/env python3
+#!/home/fr/.local/share/virtualenvs/xboomx/bin/python
 
-__author__ = 'Victor Häggqvist, Yuriy Netesov'
-__copyright__ = 'Copyright 2014-2015, Victor Häggqvist'
-__credits__ = ['Victor Häggqvist', 'Yuriy Netesov']
-__license__ = 'GPL-2.0'
-__maintainer__ = 'Victor Häggqvist <victor@hggqvst.com>'
+__author__ = "Victor Häggqvist, Yuriy Netesov"
+__copyright__ = "Copyright 2014-2015, Victor Häggqvist"
+__credits__ = ["Victor Häggqvist", "Yuriy Netesov"]
+__license__ = "GPL-2.0"
+__maintainer__ = "Victor Häggqvist <victor@hggqvst.com>"
 
+import os
 import sys
 import shutil
 import argparse
 import subprocess
-from xboomx.config import config
-from xboomx.sqlitemgr import get_session, PathItem
+from xboomx.config import config, dbpath
+from xboomx.sqlitemgr import fetch_all, init
 
 
 def print_stats():
-    """
-    Display statistics about the application launches
-    """
-    session = get_session()
-    items = session.query(PathItem).order_by(PathItem.count.desc())
-
-    print('Application\tLaunches')
-    for item in items:
-        if len(item.name) < 8:
-            print(f'{item.name}\t\t{item.count}')
+    rows = fetch_all()
+    for row in rows:
+        if len(row[1]) < 8:
+            print(f"{row[1]}\t\t{row[2]}")
         else:
-            print(f'{item.name}\t{item.count}')
+            print(f"{row[1]}\t{row[2]}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Run dmenu with entries sorted by usage frequency.')
-    parser.add_argument('--stats', action='store_true', help='Display application launch statistics.')
+    parser = argparse.ArgumentParser(
+        description="Run dmenu with entries sorted by usage frequency."
+    )
+    parser.add_argument(
+        "--stats", action="store_true", help="Display application launch statistics."
+    )
 
     args = parser.parse_args()
+
+    if not os.path.exists(dbpath):
+        init()
 
     if args.stats:
         print_stats()
         exit(0)
 
     dmenu_config = config.get("dmenu_params", "")
-    dmenu_config = dmenu_config.split(' ')
-    dmenu_launcher = 'dmenu'
+    dmenu_config = dmenu_config.split(" ")
+    dmenu_launcher = "dmenu"
 
-    xboomx_sort = [shutil.which('xboomx_sort.py')] #['python', 'xboomx_sort.py']
+    xboomx_sort = [shutil.which("xboomx_sort.py")]
+    xboomx_update = [shutil.which("xboomx_update.py")]
     dmenu_launcher = [dmenu_launcher]
     dmenu_launcher.extend(dmenu_config)
-    xboomx_update = [shutil.which('xboomx_update.py')] # ['python', 'xboomx_update.py']
 
     process = subprocess.Popen(xboomx_sort, stdout=subprocess.PIPE)
-    process2 = subprocess.Popen(dmenu_launcher, stdin=process.stdout, stdout=subprocess.PIPE)
-    process3 = subprocess.Popen(xboomx_update, stdin=process2.stdout, stdout=subprocess.PIPE)
+    process2 = subprocess.Popen(
+        dmenu_launcher, stdin=process.stdout, stdout=subprocess.PIPE
+    )
+    process3 = subprocess.Popen(
+        xboomx_update, stdin=process2.stdout, stdout=subprocess.PIPE
+    )
 
     command = process3.stdout.readline().decode().strip()
-    subprocess.run(['sh', '-c', f'exec {command} &'])
+    subprocess.run(["sh", "-c", f"exec {command} &"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

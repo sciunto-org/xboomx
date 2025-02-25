@@ -5,6 +5,9 @@ import logging
 config_dir = os.path.join(os.getenv("HOME"), '.config', 'xboomx')
 os.makedirs(config_dir, exist_ok=True)
 
+dbname = 'xboomx_sqlite.db'
+dbpath = os.path.join(config_dir, dbname)
+
 
 def load_config():
     """
@@ -34,3 +37,5 @@ def load_config():
 
 
 config = load_config()
+
+
