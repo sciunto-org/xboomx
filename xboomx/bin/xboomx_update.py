@@ -11,6 +11,7 @@ def main():
     # There is nothing to save in the db
     if item == "":
         exit(0)
+    print(item)
 
     conn = sqlite3.connect(dbpath)
     cursor = conn.cursor()
