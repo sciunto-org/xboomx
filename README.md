@@ -3,6 +3,10 @@
 xboomx is wrapper for dmenu. The goal is to apply sorting commands according to their launch frequency. In other words - if you launch emacs and lxterminal all the time - they will appear in the list of commands first.
 
 ## Installation
+
+
+### Debian
+
 ```sh
 git clone https://github.com/sciunto-org/xboomx
 cd xboomx
@@ -10,7 +14,9 @@ sudo apt-get install suckless-tools # here is instruction for debian. really we 
 sudo python setup.py install
 ```
 
-Available via AUR as `xboomx-snilius`.
+### Archlinux
+
+Available via AUR as `xboomx`.
 
 ## Config
 The config file is located at `~/.config/xboomx/config.txt`. It is created during the first execution of xboomx.
@@ -76,3 +82,6 @@ xboomx --stats
 For original license see the file `LICENSE.org`
 
 This is a fork of https://bitbucket.org/dehun/xboomx and https://github.com/victorhaggqvist/xboomx
+Nowadays, the version by dehun is not available anymore, and the version by Victor Häggqvist aka snilius has not been maintained for years.
+
+Based on snilius' version, I rewrote most of the code with modern python and enhanced the execution time.
