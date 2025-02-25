@@ -34,6 +34,25 @@ The `ignorelist` to prevent stuff that is in your path for showing up as suggest
 
 `complete_offpath` will add everything that's in you ranking database regardless of availability on PATH. This is off by default.
 
+
+## Usage
+
+Run
+
+```sh
+xboomx
+```
+
+Naturally, you must setup a keyboard binding with your window manager.
+
+
+To print the content of the database,
+
+```sh
+xboomx --stats
+```
+
+
 ## License
 
     xboomx
