@@ -2,18 +2,10 @@ import sqlite3
 from xboomx.config import dbpath
 
 
-def fetch_all():
-
-    conn = sqlite3.connect(dbpath)
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM pathitems")
-    rows = cursor.fetchall()
-    conn.close()
-    return rows
-
-
 def init():
+    """
+    Create an empty database `pathitems` with id, name, count.
+    """
 
     conn = sqlite3.connect(dbpath)
     cursor = conn.cursor()
@@ -30,3 +22,16 @@ def init():
 
     conn.commit()
     conn.close()
+
+
+def fetch_all():
+    """
+    Get the entire database.
+    """
+    conn = sqlite3.connect(dbpath)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM pathitems")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
