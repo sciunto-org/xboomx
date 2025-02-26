@@ -10,13 +10,14 @@ xboomx is wrapper for dmenu. The goal is to apply sorting commands according to 
 ```sh
 git clone https://github.com/sciunto-org/xboomx
 cd xboomx
-sudo apt-get install suckless-tools # here is instruction for debian. really we need only dmenu
+sudo apt-get install suckless-tools # provides dmenu
 sudo python setup.py install
 ```
 
 ### Archlinux
 
-Available via AUR as `xboomx`.
+Available via AUR: [xboomx](https://aur.archlinux.org/packages/xboomx).
+
 
 ## Config
 The config file is located at `~/.config/xboomx/config.txt`. It is created during the first execution of xboomx.
@@ -49,7 +50,12 @@ Run
 xboomx
 ```
 
-Naturally, you must setup a keyboard binding with your window manager.
+Naturally, you have to setup a keyboard binding to this command with your window manager.
+For instance, on i3
+
+```
+bindsym $mod+d exec xboomx
+```
 
 
 To print the content of the database,
