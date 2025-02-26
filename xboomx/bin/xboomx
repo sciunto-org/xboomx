@@ -16,7 +16,13 @@ from xboomx.sqlitemgr import fetch_all, init
 
 
 def print_stats():
+    """
+    Print application names and usage counter, by decreasing order.
+    """
     rows = fetch_all()
+    rows = sorted(rows, key=lambda a: a[2], reverse=True)
+
+    print('Application\tCount')
     for row in rows:
         if len(row[1]) < 8:
             print(f"{row[1]}\t\t{row[2]}")
